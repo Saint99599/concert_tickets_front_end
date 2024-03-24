@@ -1,29 +1,29 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import OverView from "@/components/OverViewSeats"
 import CreateConcert from "@/components/CreateConcert"
 import OverViewConcert from "@/components/OverViewConcert"
 
+import admin_api from '@/services/admin_api';
+
 export default function Admin_Home() {
   const [showOverview, setShowOverview] = useState(true)
-  const [data, setData] = useState([
-    {
-        name: "QwertyLorem002",
-        seat: 500,
-        description: "QwertyLorem001 750seat"
-    },
-    {
-        name: "QwertyLorem002",
-        seat: 250,
-        description: "QwertyLorem001 750seat"
-    },
-    {
-        name: "QwertyLorem003",
-        seat: 750,
-        description: "QwertyLorem001 750seat"
+  const [allConcert, setAllConcert] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const result = await admin_api.fetchConcertData(); 
+      console.log(result)
+      setAllConcert(result);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
     }
-]);
+  };
 
   return (
     <>
@@ -45,14 +45,14 @@ export default function Admin_Home() {
       </div>
       {showOverview ?
        <>
-        {data.map((item, index) => (
+        {allConcert.map((item, index) => (
           <div key={index} >
-              <OverViewConcert Name={item.name} Seat={item.seat} Description={item.description}/>
+              <OverViewConcert Name={item.name} Seat={item.seat} Description={item.description} fetchData={fetchData}/>
           </div>
         ))}
        </> 
       : 
-        <CreateConcert />
+        <CreateConcert fetchData={fetchData} />
       }
     </>
   )

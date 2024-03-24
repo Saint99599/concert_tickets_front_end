@@ -1,9 +1,32 @@
+"use client"
+import { useState, useEffect } from 'react';
+
 // icon
 import { User, Save  } from 'lucide-react';
 
-export default function CreateConcert() {
+import admin_api from '@/services/admin_api';
+
+export default function CreateConcert({ fetchData }) {
+  const [nameConcert, setNameConcert] = useState('');
+  const [seatConcert, setSeatConcert] = useState(0);
+  const [descriptionConcert, setDescriptionConcert] = useState('');
+
+  const handleCreateConcert = async (e) => {
+    e.preventDefault();
+    try {
+      await admin_api.postConcert({ 
+        name: nameConcert,
+        seat: seatConcert,
+        description: descriptionConcert
+      });
+      fetchData()
+    } catch (error) {
+      console.error('Error posting data:', error);
+    }
+  };
+
   return (
-    <form className='flex flex-col bg-white border border-[#C2C2C2] rounded-lg p-10'>
+    <form className='flex flex-col bg-white border border-[#C2C2C2] rounded-lg p-10' onSubmit={handleCreateConcert}>
         <label className='text-[40px] font-semibold text-[#1692EC]  pb-6'>Create</label>
         <hr className='border-[#C2C2C2] mb-6'/>
         <div className='flex gap-x-6  pb-6'>
@@ -13,6 +36,8 @@ export default function CreateConcert() {
                     className='w-full py-3 px-4 outline-none rounded border border-[#5C5C5C]' 
                     type="text" 
                     placeholder="Please input concert name"
+                    value={nameConcert} 
+                    onChange={(e) => setNameConcert(e.target.value)}
                 />
             </div>
             
@@ -23,6 +48,8 @@ export default function CreateConcert() {
                             className='w-full outline-none ' 
                             type="number" 
                             placeholder="Please input total of seat"
+                            value={seatConcert} 
+                            onChange={(e) => setSeatConcert(parseInt(e.target.value))}
                         />
                         <User/>
                     </div>
@@ -34,6 +61,8 @@ export default function CreateConcert() {
                 className='w-full py-3 px-4 outline-none rounded border border-[#5C5C5C]' 
                 type="text" 
                 placeholder="Please input description"
+                value={descriptionConcert} 
+                onChange={(e) => setDescriptionConcert(e.target.value)}
             />
         </div>
         <div className='flex justify-end'>

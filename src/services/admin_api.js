@@ -8,7 +8,7 @@ class Admin_Api {
       const response = await axios.get(`http://localhost:4000/concerts_admin`);
       return response.data;
     } catch (error) {
-      throw new Error('Failed to fetch data');
+      throw new Error('Error:'+ error.message);
     }
   }
 
@@ -19,20 +19,18 @@ class Admin_Api {
         seat: seat,
         description: description
       });
-      console.log('response:', response);
-      return response.data;
+      return response;
     } catch (error) {
-      throw new Error('Error:', error.message);
+      throw new Error('Error:'+ error.message);
     }
   }
 
   async deleteConcert({name}) {
     try {
       const response = await axios.delete(`http://localhost:4000/concerts_admin/${name}`);
-      console.log('response:', response);
       return response;
     } catch (error) {
-        console.log('Error:', error.message);
+      throw new Error('Error:'+ error.message);
     }
   }
 }

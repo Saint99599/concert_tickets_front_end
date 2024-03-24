@@ -1,6 +1,9 @@
 "use client"
 import { useState } from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Modal from './Modal';
 
 // icon
@@ -24,15 +27,25 @@ export default function OverViewConcert({Name, Seat, Description, fetchData}) {
       await admin_api.deleteConcert({
         name: Name
       });
+      console.log("---1---")
       fetchData();
+      console.log("---2---")
       setIsModalOpen(false); // ปิดโมดัลหลังจากลบเสร็จ
+      console.log("---3---")
+      toast.success('Delete successfully')
+      console.log("---4---")
     } catch (error) {
       console.error('Error delete data:', error.message);
+      toast.error('Delete Failed', {
+        position: 'top-right' // แก้เป็น 'top-right' หรือตำแหน่งที่ต้องการ
+      });
     }
   };
 
   return (
     <>
+      <ToastContainer/>
+
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleClose}
@@ -43,7 +56,7 @@ export default function OverViewConcert({Name, Seat, Description, fetchData}) {
             <p className="text-xl">Are you sure to delete?</p>
             <p className="text-xl">"{Name}"</p>
           </div>
-          <div className='flex gap-x-4'>
+          <div className='flex justify-around gap-x-4'>
             <button 
               className='w-[179px] rounded border border-[#C4C4C4] px-4 py-3'
               onClick={handleClose}
@@ -59,7 +72,7 @@ export default function OverViewConcert({Name, Seat, Description, fetchData}) {
           </div>
         </div>
       </Modal>
-      
+
       <div className='flex flex-col bg-white border border-[#C2C2C2] rounded-lg p-10 mb-12'>
         <label className='text-[40px] font-semibold text-[#1692EC] pb-6'>{Name}</label>
         <hr className='border-[#C2C2C2] mb-6'/>

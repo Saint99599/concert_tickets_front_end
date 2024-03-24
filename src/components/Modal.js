@@ -5,6 +5,7 @@ const Modal = ({ isOpen, onRequestClose, children }) => {
     <ReactModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
+      ariaHideApp={false}
       className="modal-content relative flex justify-end"
       overlayClassName="modal-overlay"
     >

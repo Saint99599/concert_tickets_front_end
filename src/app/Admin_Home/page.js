@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import OverView from "@/components/OverViewSeats"
 import CreateConcert from "@/components/CreateConcert"

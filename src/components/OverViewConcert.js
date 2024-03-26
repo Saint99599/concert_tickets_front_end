@@ -27,13 +27,14 @@ export default function OverViewConcert({Name, Seat, Description, fetchData}) {
       await admin_api.deleteConcert({
         name: Name
       });
-      console.log("---1---")
+      //bug notice
+      // console.log("---1---")
       fetchData();
-      console.log("---2---")
+      // console.log("---2---")
       setIsModalOpen(false); // ปิดโมดัลหลังจากลบเสร็จ
-      console.log("---3---")
+      // console.log("---3---")
       toast.success('Delete successfully')
-      console.log("---4---")
+      // console.log("---4---")
     } catch (error) {
       console.error('Error delete data:', error.message);
       toast.error('Delete Failed', {

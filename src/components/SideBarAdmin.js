@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 // icon
 import { Home, Inbox, RefreshCcw, LogOut  } from 'lucide-react';
@@ -13,11 +15,17 @@ const pages = [
 ];
 
 export default function SideBarAdmin() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(pages[0]);
 
   //setCurrentPage to add bg color in button
   const changePage = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove('token');
+    router.push('/Login');
   };
 
   return (
@@ -42,7 +50,10 @@ export default function SideBarAdmin() {
       </div>
 
       {/* logout */}
-      <div className='flex gap-2.5 items-center m-2.5 text-2xl py-4 px-2 hover:bg-[#EAF5F9] rounded-lg'> 
+      <div
+        className='flex gap-2.5 items-center m-2.5 text-2xl py-4 px-2 hover:bg-[#EAF5F9] rounded-lg'
+        onClick={handleLogout}
+      > 
         <LogOut/>
         Logout
       </div>

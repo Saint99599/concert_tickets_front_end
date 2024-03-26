@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import OverView from "@/components/OverViewSeats"
 import CreateConcert from "@/components/CreateConcert"
 import OverViewConcert from "@/components/OverViewConcert"
+// import CheckAuth  from '@/services/check_auth';
 
 import admin_api from '@/services/admin_api';
 
@@ -12,7 +13,8 @@ export default function Admin_Home() {
   const [allConcert, setAllConcert] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    // CheckAuth()
+    fetchData()
   }, []);
 
   const fetchData = async () => {

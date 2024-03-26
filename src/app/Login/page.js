@@ -8,6 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import jwt from 'jsonwebtoken';
 
+import Cookies from 'js-cookie';
+
+import axios from 'axios';
+
 export default function Login() {
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -22,10 +26,13 @@ export default function Login() {
         password: password
       });
       const token = res.data.token
-      console.log("token",token)
       
       if (token) {
         toast.success('Login successfully');
+        Cookies.set('token', token);
+        // const gettoken = Cookies.get('token');
+        // console.log("gettoken login",gettoken)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const decodedToken = jwt.decode(token);
         const role = decodedToken.role;
         if (role === 'admin') {

@@ -6,7 +6,7 @@ const roboto = Roboto({
   subsets: ['latin'],
 })
 
-import SideBarAdmin from "@/components/SideBarAdmin"
+import SideBar from "@/components/SideBar"
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,10 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`flex ${roboto.className}`}>
-        <SideBarAdmin/>
-        <main className="bg-[#FBFBFB] w-full md:ml-60 py-16 px-8">
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   )

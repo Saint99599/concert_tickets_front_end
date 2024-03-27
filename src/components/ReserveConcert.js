@@ -9,11 +9,11 @@ import Modal from './Modal';
 // icon
 import { User, Trash2, CircleX } from 'lucide-react';
 
-import admin_api from '@/services/admin_api';
+import user_api from '@/services/user_api';
 
 import Cookies from 'js-cookie';
 
-export default function OverViewConcert({Name, Seat, Description, fetchData}) {
+export default function ReserveConcert({UserName, Name, Seat, Description, fetchData}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = Cookies.get('token');
 
@@ -24,21 +24,21 @@ export default function OverViewConcert({Name, Seat, Description, fetchData}) {
     setIsModalOpen(true);
   }
 
-  const handleDeleteConcert = async (e) => {
+  const handleReserveConcert = async (e) => {
     e.preventDefault();
     try {
-      await admin_api.deleteConcert({
-        name: Name,
-        seat: Seat,
+      await user_api.addProductToUser({
+        username: UserName,
+        productname: Name,
         token:token
       });
       //bug notice
       fetchData();
       setIsModalOpen(false); // ปิดโมดัลหลังจากลบเสร็จ
-      toast.success('Delete successfully')
+      toast.success('Reserve successfully')
     } catch (error) {
-      console.error('Error delete data:', error.message);
-      toast.error('Delete Failed', {
+      console.error('Error Reserve data:', error.message);
+      toast.error('Reserve Failed', {
         position: 'top-right' // แก้เป็น 'top-right' หรือตำแหน่งที่ต้องการ
       });
     }
@@ -54,8 +54,7 @@ export default function OverViewConcert({Name, Seat, Description, fetchData}) {
       >
         <div className="flex flex-col bg-white rounded-lg p-6 gap-y-6">
           <div className="flex flex-col items-center">
-            <CircleX className='text-[#E63946] w-12 h-12'/>
-            <p className="text-xl">Are you sure to delete?</p>
+            <p className="text-xl">Are you sure to Reserve?</p>
             <p className="text-xl">"{Name}"</p>
           </div>
           <div className='flex justify-around gap-x-4'>
@@ -66,10 +65,10 @@ export default function OverViewConcert({Name, Seat, Description, fetchData}) {
               Cancel
             </button>
             <button 
-              className='w-[179px] rounded bg-[#E63946] border border-[#C4C4C4] text-white px-4 py-3'
-              onClick={handleDeleteConcert}
+              className='w-[179px] rounded bg-[#1692EC] border border-[#C4C4C4] text-white px-4 py-3'
+              onClick={handleReserveConcert}
             >
-              Yes, Delete
+              Yes, Reserve
             </button>
           </div>
         </div>
@@ -84,11 +83,10 @@ export default function OverViewConcert({Name, Seat, Description, fetchData}) {
         <div className='flex justify-between items-center'>
           <span className='flex text-2xl gap-x-2'><User/>{Seat}</span>
           <button 
-            className='flex items-center gap-x-2.5 rounded bg-[#E84E4E] text-white text-2xl px-4 py-3' 
+            className='flex items-center gap-x-2.5 rounded bg-[#1692EC] text-white text-2xl px-4 py-3' 
             onClick={handleOpen}
           >
-            <Trash2/>
-            Delete
+            Reserve
           </button>
         </div>
       </div>

@@ -2,11 +2,12 @@
 import axios from 'axios';
 
 class Auth_Api {
-  async register({username, password}) {
+  async register({username, password, role}) {
     try {
       const response = await axios.post(`http://localhost:4000/accounts/register`,{
         username: username,
-        password: password
+        password: password,
+        role: role
       });
       return response;
     } catch (error) {
@@ -20,7 +21,6 @@ class Auth_Api {
         username: username,
         password: password
       });
-      console.log(response)
       return response;
     } catch (error) {
       throw new Error('Error:'+ error.message);

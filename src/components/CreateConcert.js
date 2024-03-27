@@ -9,10 +9,13 @@ import { User, Save  } from 'lucide-react';
 
 import admin_api from '@/services/admin_api';
 
+import Cookies from 'js-cookie';
+
 export default function CreateConcert({ fetchData }) {
   const [nameConcert, setNameConcert] = useState('');
   const [seatConcert, setSeatConcert] = useState(0);
   const [descriptionConcert, setDescriptionConcert] = useState('');
+  const token = Cookies.get('token');
 
   const handleCreateConcert = async (e) => {
     e.preventDefault();
@@ -20,7 +23,8 @@ export default function CreateConcert({ fetchData }) {
       await admin_api.postConcert({ 
         name: nameConcert,
         seat: seatConcert,
-        description: descriptionConcert
+        description: descriptionConcert,
+        token:token
       });
       fetchData()
       toast.success('Create successfully');

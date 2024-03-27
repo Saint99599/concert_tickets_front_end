@@ -3,18 +3,23 @@ import axios from 'axios';
 
 class Admin_Api {
 
-  async fetchConcertData() {
+  async fetchConcertData(token) {
     try {
-      const response = await axios.get(`http://localhost:4000/concerts_admin`);
+      const response = await axios.get(`http://localhost:4000/concerts_admin`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       return response.data;
     } catch (error) {
       throw new Error('Error:'+ error.message);
     }
   }
 
-  async postConcert({name, seat, description}) {
+  async postConcert({name, seat, description, token }) {
     try {
       const response = await axios.post(`http://localhost:4000/concerts_admin`,{
+        headers: {'Authorization': `Bearer ${token}`},
         name: name,
         seat: seat,
         description: description
@@ -25,9 +30,16 @@ class Admin_Api {
     }
   }
 
-  async deleteConcert({name}) {
+  async deleteConcert({name, seat, token}) {
     try {
-      const response = await axios.delete(`http://localhost:4000/concerts_admin/${name}`);
+      const response = await axios.delete(`http://localhost:4000/concerts_admin`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        name: name,
+        seat: seat,
+        description: "none"
+      })
       return response;
     } catch (error) {
       throw new Error('Error:'+ error.message);

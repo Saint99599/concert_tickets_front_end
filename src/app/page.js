@@ -2,7 +2,7 @@ import Login from "./Login/page";
 
 export default function Home() {
   return (
-    <main className="">
+    <main className="w-full">
       <Login/>
     </main>
   )
